@@ -12,18 +12,13 @@ class RecieveGestures:
 
         print("Connecting to Gesture Server on Host: {}:{}".format(host, port))
         self.s.connect((host, port))
-        #s.setblocking(0)
         print("Connected to Gesture Server")
 
-        self.startClient()
-
-    def startClient(self):
-        while True:
-            msg = self.s.recv(1024)
-            gesture = pickle.loads(msg)
-            print(gesture)
-            time.sleep(0.1)
-
+    def getData(self):
+        msg = self.s.recv(1024)
+        gesture, angle = pickle.loads(msg)
+        return [gesture, angle]
+        
 if __name__ == "__main__":
     R = RecieveGestures()
 

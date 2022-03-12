@@ -74,7 +74,12 @@ class ColorTracker:
 
             #Labeling the  color
             cv2.putText(img, "Color: " + self.target_color, (250*self.tracker_num, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, range_rgb[self.target_color], 2)
-        return img
+            cube_pos = [round(world_x,2), round(world_y,2), round(rect[2],2)]
+
+        else:
+            cube_pos = None
+        
+        return img, cube_pos
 
 class Tracker:
     def __init__(self):
@@ -87,22 +92,22 @@ class Tracker:
         self.tracker_green = ColorTracker("green", 1)
         self.tracker_blue = ColorTracker("blue", 2)
 
-        self.startTracking()
+        #self.startTracking()
     
-    def startTracking(self):
-        while True:
-            img = self.camera.frame
-            if img is not None:
-                frame = img.copy()
-                frame = self.tracker_red.track(frame)
-                frame = self.tracker_green.track(frame)
-                frame = self.tracker_blue.track(frame)
-                cv2.imshow('Frame', frame)
-                key = cv2.waitKey(1)
-                if key == 27:
-                    break
-        my_camera.camera_close()
-        cv2.destroyAllWindows()
+    def track(self):
+        img = self.camera.frame
+
+        if img is not None:
+            frame = img.copy()
+            frame, red_cube_pos = self.tracker_red.track(frame)
+            frame, green_cube_pos = self.tracker_green.track(frame)
+            frame, blue_cube_pos = self.tracker_blue.track(frame)
+            cv2.imshow('Frame', frame)   
+            key = cv2.waitKey(1)
+        else:
+            red_cube_pos, green_cube_pos, blue_cube_pos = None, None, None
+
+        return red_cube_pos, green_cube_pos, blue_cube_pos
 
 if __name__ == '__main__':
     Tracker()
