@@ -22,12 +22,12 @@ class Merger:
                                 "thumbs down"   : "StoreBlue",
                                 "call me"       : "StoreGreen",
                                 'peace'         : "GripperControl",
+                                "rock"          : "Rise",
+                                "fist"          : "Rise",
 
                                 'okay'          : "pass",
-                                'rock'          : "pass",
-                                'live long'     : "pass",
-                                'fist'          : "pass",
-                                'smile'         : "pass"
+                                'live long'     : "ReturnBase",
+                                'smile'         : "ReturnBase"
                                 }
 
         self.current_command = None
